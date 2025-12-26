@@ -100,11 +100,6 @@ class WordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
-                'word' => 'chasm',
-                'meaning' => 'شکاف',
-            ],
-            [
-                'language_id' => 1,
                 'word' => 'likable',
                 'meaning' => 'خوش برخورد',
             ],
@@ -170,7 +165,7 @@ class WordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
-                'word' => 'brewer ',
+                'word' => 'brewer',
                 'meaning_en' => 'a person or company that manufactures beer.',
             ],
             [
@@ -491,11 +486,6 @@ class WordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
-                'word' => 'thick',
-                'meaning' => 'ضخیم',
-            ],
-            [
-                'language_id' => 1,
                 'word' => 'inevitable',
                 'meaning' => 'اجتناب ناپذیر',
             ],
@@ -628,11 +618,6 @@ class WordSeeder extends Seeder
                 'language_id' => 1,
                 'word' => 'mat-like',
                 'meaning' => 'حصیرمانند',
-            ],
-            [
-                'language_id' => 1,
-                'word' => 'geotextile',
-                'meaning' => '',
             ],
             [
                 'language_id' => 1,
@@ -851,7 +836,7 @@ class WordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
-                'word' => 'disorded',
+                'word' => 'disordered',
                 'meaning' => 'آشفته',
             ],
             [
@@ -876,7 +861,7 @@ class WordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
-                'word' => 'teap',
+                'word' => 'tea',
                 'meaning' => 'چای',
             ],
             [
@@ -926,7 +911,7 @@ class WordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
-                'word' => 'reconile',
+                'word' => 'reconcile',
                 'meaning' => 'آشتی دادن',
             ],
             [
@@ -956,7 +941,7 @@ class WordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
-                'word' => 'parsely',
+                'word' => 'parsley',
                 'meaning' => 'تجزیه',
             ],
             [
@@ -1441,7 +1426,7 @@ class WordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
-                'word' => 'adaquate',
+                'word' => 'adequate',
                 'meaning' => 'کافی',
             ],
             [
@@ -1471,7 +1456,7 @@ class WordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
-                'word' => 'embelm',
+                'word' => 'emblem',
                 'meaning' => 'نشان',
             ],
             [
@@ -1506,7 +1491,7 @@ class WordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
-                'word' => 'numteg',
+                'word' => 'nutmeg',
                 'meaning' => 'جوزهندی',
             ],
             [
@@ -1612,12 +1597,12 @@ class WordSeeder extends Seeder
             [
                 'language_id' => 1,
                 'word' => 'dominance',
-                'meaning' => 'کالا',
+                'meaning' => 'سلطه',
             ],
             [
                 'language_id' => 1,
                 'word' => 'dominate',
-                'meaning' => 'تسلطف',
+                'meaning' => 'تسلط',
             ],
             [
                 'language_id' => 1,
@@ -1731,7 +1716,7 @@ class WordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
-                'word' => 'arcitic',
+                'word' => 'arctic',
                 'meaning' => 'قطب شمال',
             ],
             [
@@ -1761,7 +1746,7 @@ class WordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
-                'word' => 'mututations',
+                'word' => 'mutations',
                 'meaning' => 'جهش ها',
             ],
             [
@@ -1777,12 +1762,12 @@ class WordSeeder extends Seeder
             [
                 'language_id' => 1,
                 'word' => 'nutrient',
-                'meaning' => 'موا مغزی',
+                'meaning' => 'مغزی',
             ],
             [
                 'language_id' => 1,
                 'word' => 'undergo',
-                'meaning' => 'تحت',
+                'meaning' => 'تحت تجربه قرار گرفتن',
             ],
             [
                 'language_id' => 1,
@@ -1921,11 +1906,6 @@ class WordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
-                'word' => 'cradle',
-                'meaning' => 'گهواره',
-            ],
-            [
-                'language_id' => 1,
                 'word' => 'traction',
                 'meaning' => 'کشش',
             ],
@@ -1952,12 +1932,12 @@ class WordSeeder extends Seeder
             [
                 'language_id' => 2,
                 'word' => 'kopf',
-                'meaning' => 'شیر',
+                'meaning' => 'head',
             ],
             [
                 'language_id' => 2,
                 'word' => 'zahl',
-                'meaning' => 'خط',
+                'meaning' => 'number',
             ],
             [
                 'language_id' => 2,
@@ -1988,16 +1968,6 @@ class WordSeeder extends Seeder
                 'language_id' => 2,
                 'word' => 'vorne',
                 'meaning' => 'in front',
-            ],
-            [
-                'language_id' => 2,
-                'word' => 'hinten',
-                'meaning' => 'back',
-            ],
-            [
-                'language_id' => 2,
-                'word' => 'vorne',
-                'meaning' => 'in front of',
             ],
             [
                 'language_id' => 2,
@@ -2196,11 +2166,6 @@ class WordSeeder extends Seeder
             ],
             [
                 'language_id' => 2,
-                'word' => 'immer',
-                'meaning' => 'always',
-            ],
-            [
-                'language_id' => 2,
                 'word' => 'kleiner',
                 'meaning' => 'smaller',
             ],
@@ -2271,7 +2236,7 @@ class WordSeeder extends Seeder
             ],
             [
                 'language_id' => 2,
-                'word' => 'geschafte',
+                'word' => 'Geschäfte',
                 'meaning' => 'shops',
             ],
             [
@@ -2301,7 +2266,7 @@ class WordSeeder extends Seeder
             ],
             [
                 'language_id' => 2,
-                'word' => 'straBe',
+                'word' => 'Straße',
                 'meaning' => 'street',
             ],
             [
@@ -2353,11 +2318,6 @@ class WordSeeder extends Seeder
                 'language_id' => 2,
                 'word' => 'hauser',
                 'meaning' => 'houses',
-            ],
-            [
-                'language_id' => 2,
-                'word' => 'groB',
-                'meaning' => 'big',
             ],
             [
                 'language_id' => 2,
@@ -2766,7 +2726,7 @@ class WordSeeder extends Seeder
             ],
             [
                 'language_id' => 2,
-                'word' => 'vegetrainer',
+                'word' => 'Vegetarier',
                 'meaning' => 'vegeterrian',
             ],
             [
@@ -2862,7 +2822,7 @@ class WordSeeder extends Seeder
             [
                 'language_id' => 2,
                 'word' => 'rentner',
-                'meaning' => 'prisoner',
+                'meaning' => 'retiree',
             ],
             [
                 'language_id' => 2,
@@ -2882,27 +2842,27 @@ class WordSeeder extends Seeder
             [
                 'language_id' => 2,
                 'word' => 'schree',
-                'meaning' => 'شونه',
+                'meaning' => 'scissors',
             ],
             [
                 'language_id' => 2,
                 'word' => 'kmam',
-                'meaning' => 'قیچی',
+                'meaning' => 'kmam',
             ],
             [
                 'language_id' => 2,
                 'word' => 'burest',
-                'meaning' => 'برس',
+                'meaning' => 'brush',
             ],
             [
                 'language_id' => 2,
                 'word' => 'langsamer',
-                'meaning' => 'آرامتر',
+                'meaning' => 'slower',
             ],
             [
                 'language_id' => 2,
                 'word' => 'wirklich',
-                'meaning' => 'کاملا',
+                'meaning' => 'really',
             ],
             [
                 'language_id' => 2,
@@ -3511,11 +3471,6 @@ class WordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
-                'word' => 'contentedly',
-                'meaning' => 'با رضایت',
-            ],
-            [
-                'language_id' => 1,
                 'word' => 'knack',
                 'meaning' => 'استعداد',
             ],
@@ -3608,11 +3563,6 @@ class WordSeeder extends Seeder
                 'language_id' => 1,
                 'word' => 'elasticity',
                 'meaning' => 'خاصیت ارتجاعی',
-            ],
-            [
-                'language_id' => 1,
-                'word' => 'insulated',
-                'meaning' => 'عایق شده',
             ],
             [
                 'language_id' => 1,
@@ -3793,11 +3743,6 @@ class WordSeeder extends Seeder
                 'language_id' => 1,
                 'word' => 'plentiful',
                 'meaning' => 'فراوان',
-            ],
-            [
-                'language_id' => 1,
-                'word' => 'sensitivity',
-                'meaning' => 'حساسیت',
             ],
             [
                 'language_id' => 1,
