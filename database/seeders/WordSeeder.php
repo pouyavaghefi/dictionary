@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use DB;
+use Carbon\Carbon;
 class WordSeeder extends Seeder
 {
     /**
@@ -2930,8 +2931,43 @@ class WordSeeder extends Seeder
             ]
         ];
 
+        $now = Carbon::now();
+
+        foreach ($words as &$word) {
+            // Ensure all required keys exist
+            $word = array_merge([
+                'language_id' => 1,   // default to English if missing
+                'word'       => null,
+                'meaning'    => null,
+                'meaning_en' => null,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ], $word);
+
+            // If meaning_en contains Farsi, move it to meaning
+            if (!empty($word['meaning_en']) && preg_match('/[\x{0600}-\x{06FF}]/u', $word['meaning_en'])) {
+                $word['meaning'] = $word['meaning_en'];
+                $word['meaning_en'] = null;
+            }
+
+            // If meaning contains English letters, move it to meaning_en
+            if (!empty($word['meaning']) && preg_match('/[A-Za-z]/', $word['meaning'])) {
+                $word['meaning_en'] = $word['meaning'];
+                // Clear meaning only if it's purely English
+                if (!preg_match('/[\x{0600}-\x{06FF}]/u', $word['meaning'])) {
+                    $word['meaning'] = null;
+                }
+            }
+
+            // Ensure timestamps exist
+            $word['created_at'] = $now;
+            $word['updated_at'] = $now;
+        }
+
+// Insert in chunks of 50
         foreach (array_chunk($words, 50) as $chunk) {
             DB::table('words')->insert($chunk);
         }
+
     }
 }

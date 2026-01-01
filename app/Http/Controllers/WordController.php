@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Language;
 use Illuminate\Http\Request;
 use App\Models\Word;
+use Illuminate\Support\Facades\Http;
 class WordController extends Controller
 {
     public function index()
@@ -50,8 +51,76 @@ class WordController extends Controller
         dd(3);
     }
 
-    public function search()
+    public function search(Request $request)
     {
-        dd(3);
+        $q = trim($request->query('q'));
+
+        if (!$q) {
+            return redirect()->back()->with('error', 'Please enter a word to search.');
+        }
+
+        // Fetch word from local database
+        $word = Word::where('word', 'LIKE', "%{$q}%")->first();
+
+        if (!$word) {
+            return view('search_results', [
+                'query' => $q,
+                'word' => null,
+                'externalData' => null,
+                'englishEquivalent' => null
+            ]);
+        }
+
+        $externalData = null;
+        $englishEquivalent = null;
+
+        if ($word->language_id == 1) {
+            // English word: fetch additional info from dictionary API
+            try {
+                $response = Http::get("https://api.dictionaryapi.dev/api/v2/entries/en/{$word->word}");
+                if ($response->ok()) {
+                    $externalData = $response->json();
+                }
+            } catch (\Exception $e) {
+                $externalData = null;
+            }
+        } else {
+            // German word: find English equivalent in database
+            $englishEquivalent = Word::where('meaning_en', $word->word)
+                ->where('language_id', 1)
+                ->first();
+
+            // If not found, try to fetch English translation via API
+            // Example using LibreTranslate free API
+            try {
+                $translateResponse = Http::post('https://libretranslate.com/translate', [
+                    'q' => $word->word,
+                    'source' => 'de',
+                    'target' => 'en',
+                    'format' => 'text'
+                ]);
+
+                if ($translateResponse->ok()) {
+                    $translated = $translateResponse->json();
+                    if (isset($translated['translatedText'])) {
+                        $englishEquivalent = [
+                            'word' => $translated['translatedText'],
+                            'meaning' => $translated['translatedText'],
+                            'language_id' => 1
+                        ];
+                    }
+                }
+            } catch (\Exception $e) {
+                // Ignore translation API errors silently
+            }
+        }
+
+        return view('search_results', [
+            'query' => $q,
+            'word' => $word,
+            'externalData' => $externalData,
+            'englishEquivalent' => $englishEquivalent
+        ]);
     }
+
 }

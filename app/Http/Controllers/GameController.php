@@ -14,87 +14,55 @@ class GameController extends Controller
 {
     public function index()
     {
-        // 'word', 'phrase','loanword', 'abbreviation'
         $types = ['word'];
-        shuffle($types); // randomize the order
+        shuffle($types);
 
         foreach ($types as $type) {
-            switch ($type) {
-                case 'word':
-                    $item = Word::where('language_id', 1)->inRandomOrder()->first();
-                    if ($item)
-                        return view('game', [
-                            'type' => $type,
-                            'question' => $item->word,
-                            'answer' => $item->meaning
-                        ]);
-                    break;
-
-                case 'sentence':
-                    $item = Sentence::inRandomOrder()->first();
-                    if ($item) return view('game', [
-                        'type' => $type,
-                        'question' => $item->sentences,
-                        'answer' => null
-                    ]);
-                    break;
-
-                case 'turnover':
-                    $item = Turnover::inRandomOrder()->first();
-                    if ($item) return view('game', [
-                        'type' => $type,
-                        'question' => $item->sentences,
-                        'answer' => null
-                    ]);
-                    break;
-
-                case 'phrase':
-                    $item = Phrase::inRandomOrder()->first();
-                    if ($item) return view('game', [
-                        'type' => $type,
-                        'question' => $item->original,
-                        'answer' => $item->replacement
-                    ]);
-                    break;
-
-                case 'loanword':
-                    $item = LoanWord::inRandomOrder()->first();
-                    if ($item) return view('game', [
-                        'type' => $type,
+            if ($type === 'word') {
+                $item = Word::where('language_id', 1)->inRandomOrder()->first();
+                if ($item) {
+                    return view('game', [
+                        'type' => 'word',
                         'question' => $item->word,
-                        'answer' => $item->meaning
+                        'answer' => $item->meaning,
                     ]);
-                    break;
-
-                case 'abbreviation':
-                    $item = Abbreviation::inRandomOrder()->first();
-                    if ($item) return view('game', [
-                        'type' => $type,
-                        'question' => $item->original,
-                        'answer' => $item->replacement
-                    ]);
-                    break;
+                }
             }
         }
 
-        // fallback if no item found
-        return view('game', [
-            'type' => null,
-            'question' => null,
-            'answer' => null,
-            'message' => 'No data available to play the game.'
-        ]);
+        abort(404);
     }
 
     public function checkGuess(Request $request)
     {
-        $correct = $request->input('correct_answer');
-        $userGuess = $request->input('user_guess');
+        $correct = trim(strtolower($request->input('correct_answer')));
+        $userGuess = trim(strtolower($request->input('user_guess')));
 
-        if (strtolower(trim($userGuess)) === strtolower(trim($correct))) {
+        // init stats if not exists
+        $stats = session()->get('stats', [
+            'correct' => 0,
+            'wrong' => 0,
+            'total' => 0,
+        ]);
+
+        $stats['total']++;
+
+        if ($userGuess === $correct) {
+            $stats['correct']++;
+
+            session()->put('stats', $stats);
+
             return back()->with('success', 'Correct!');
-        } else {
-            return back()->with('error', 'Incorrect! The correct answer was: ' . $correct);
         }
+
+        // wrong answer
+        $stats['wrong']++;
+
+        session()->put('stats', $stats);
+
+        return back()->with([
+            'error' => 'Incorrect! The correct answer was: ' . $request->input('correct_answer'),
+
+        ]);
     }
 }

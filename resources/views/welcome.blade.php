@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>German-English Dictionary</title>
+    <title>German & English Dictionary</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for icons -->
@@ -242,16 +242,13 @@
                     <a class="nav-link" href="/game"><i class="fas fa-gamepad me-1"></i> Game</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/words/2"><i class="fas fa-language me-1"></i> DE Words</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/words/1"><i class="fas fa-language me-1"></i> EN Words</a>
+                    <a class="nav-link" href="/words/2"><i class="fas fa-language me-1"></i> Most Common Words</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/words"><i class="fas fa-list me-1"></i> All Words</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/words/search"><i class="fas fa-search me-1"></i> Search Word</a>
+                    <a class="nav-link" href="/words/searched"><i class="fas fa-search me-1"></i> Searched Words</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/words/create"><i class="fas fa-plus-circle me-1"></i> Add New Word</a>
@@ -267,21 +264,36 @@
         <div class="row align-items-center">
             <div class="col-lg-7">
                 <h1 class="hero-title">Bridge Languages, Expand Horizons</h1>
-                <p class="hero-subtitle">Explore our comprehensive German-English dictionary with thousands of words, phrases, and examples. Perfect for learners, translators, and language enthusiasts.</p>
+                <p class="hero-subtitle">
+                    Explore our comprehensive German & English dictionaries with thousands of words, phrases, and examples.
+                    Perfect for learners, translators, and language enthusiasts.
+                </p>
+
                 <div class="search-container">
-                    <div class="input-group">
-                        <input type="text" class="form-control search-box" placeholder="Search for a word in English or German...">
-                        <button class="btn btn-primary" type="button">
-                            <i class="fas fa-search"></i> Search
-                        </button>
-                    </div>
+                    <form action="{{ route('words.search') }}" method="GET">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control search-box" placeholder="Search for a word in English or German..." required>
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <a href="/game" class="btn btn-outline-light me-2"><i class="fas fa-play-circle me-1"></i> Try Learning Game</a>
-                <a href="/words/create" class="btn btn-light"><i class="fas fa-plus-circle me-1"></i> Add New Word</a>
+
+                <a href="/game" class="btn btn-outline-light me-2">
+                    <i class="fas fa-play-circle me-1"></i> Try Learning Game
+                </a>
+                <a href="/words/create" class="btn btn-light">
+                    <i class="fas fa-plus-circle me-1"></i> Add New Word
+                </a>
             </div>
+
             <div class="col-lg-5 d-none d-lg-block">
                 <div class="text-center">
-                    <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" class="img-fluid rounded-circle shadow" alt="Dictionary" style="max-height: 400px;">
+                    <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+                         class="img-fluid rounded-circle shadow"
+                         alt="Dictionary"
+                         style="max-height: 400px;">
                 </div>
             </div>
         </div>
@@ -291,24 +303,24 @@
 <!-- Stats Section -->
 <section class="py-5">
     <div class="container">
-        <div class="row text-center">
-            <div class="col-md-3 col-sm-6 mb-4">
-                <span class="stat-number">12,500+</span>
-                <span class="stat-label">German Words</span>
+        <section class="py-5">
+            <div class="container">
+                <div class="row justify-content-center text-center">
+                    <div class="col-md-3 col-sm-6 mb-4">
+                        <span class="stat-number" data-target="{{ $germanCount }}">0+</span>
+                        <span class="stat-label d-block">German Words</span>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-4">
+                        <span class="stat-number" data-target="{{ $englishCount }}">0+</span>
+                        <span class="stat-label d-block">English Words</span>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-4">
+                        <span class="stat-number" data-target="{{ $totalCount }}">0+</span>
+                        <span class="stat-label d-block">Total Words</span>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-3 col-sm-6 mb-4">
-                <span class="stat-number">15,200+</span>
-                <span class="stat-label">English Words</span>
-            </div>
-            <div class="col-md-3 col-sm-6 mb-4">
-                <span class="stat-number">27,700+</span>
-                <span class="stat-label">Total Words</span>
-            </div>
-            <div class="col-md-3 col-sm-6 mb-4">
-                <span class="stat-number">8,900+</span>
-                <span class="stat-label">Example Sentences</span>
-            </div>
-        </div>
+        </section>
     </div>
 </section>
 
@@ -366,6 +378,7 @@
         <h2 class="section-title">Browse By Language</h2>
 
         <div class="row">
+            <!-- German Words -->
             <div class="col-lg-6 mb-4">
                 <div class="language-card german">
                     <div class="card-body p-4">
@@ -380,13 +393,13 @@
                         </div>
                         <p class="card-text">Explore our collection of German words with English translations, pronunciation guides, and usage examples. Perfect for German learners and speakers.</p>
                         <div class="mt-4">
-                            <a href="#" class="btn btn-dark me-2">Browse German Words</a>
-                            <a href="#" class="btn btn-outline-dark">Popular German Words</a>
+                            <a href="/words/2" class="btn btn-dark me-2">Browse German Words</a>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- English Words -->
             <div class="col-lg-6 mb-4">
                 <div class="language-card english">
                     <div class="card-body p-4">
@@ -401,8 +414,154 @@
                         </div>
                         <p class="card-text">Browse English words with German translations. Each entry includes definitions, pronunciation, and contextual examples to help with language learning.</p>
                         <div class="mt-4">
-                            <a href="#" class="btn btn-danger me-2">Browse English Words</a>
-                            <a href="#" class="btn btn-outline-danger">Popular English Words</a>
+                            <a href="/words/1" class="btn btn-danger me-2">Browse English Words</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Abbreviations -->
+            <div class="col-lg-6 mb-4">
+                <div class="language-card abbreviations">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px;">
+                                <i class="fas fa-book fs-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="mb-0">Abbreviations</h3>
+                                <p class="text-muted mb-0">e.g., FOMO, YOLO</p>
+                            </div>
+                        </div>
+                        <p class="card-text">Find popular abbreviations and acronyms with their full forms and meanings. Perfect for understanding modern English expressions.</p>
+                        <div class="mt-4">
+                            <a href="/abbreviations" class="btn btn-primary me-2">Browse Abbreviations</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Catch Phrases -->
+            <div class="col-lg-6 mb-4">
+                <div class="language-card catch-phrases">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px;">
+                                <i class="fas fa-comment fs-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="mb-0">Catch Phrases</h3>
+                                <p class="text-muted mb-0">Popular expressions</p>
+                            </div>
+                        </div>
+                        <p class="card-text">Explore common catch phrases used in everyday English. Learn their meanings, origins, and how to use them in conversation.</p>
+                        <div class="mt-4">
+                            <a href="/catch_phrases" class="btn btn-warning me-2">Browse Catch Phrases</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Idioms -->
+            <div class="col-lg-6 mb-4">
+                <div class="language-card idioms">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px;">
+                                <i class="fas fa-lightbulb fs-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="mb-0">Idioms</h3>
+                                <p class="text-muted mb-0">e.g., Break the ice, All in all</p>
+                            </div>
+                        </div>
+                        <p class="card-text">Understand the meaning and usage of English idioms with examples. Useful for learners to sound more natural and fluent.</p>
+                        <div class="mt-4">
+                            <a href="/idioms" class="btn btn-success me-2">Browse Idioms</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paraphrases -->
+            <div class="col-lg-6 mb-4">
+                <div class="language-card paraphrases">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-info text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px;">
+                                <i class="fas fa-exchange-alt fs-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="mb-0">Paraphrases</h3>
+                                <p class="text-muted mb-0">Rewritten sentences</p>
+                            </div>
+                        </div>
+                        <p class="card-text">View examples of paraphrased sentences for clearer and concise expression. Ideal for academic writing or summarizing content.</p>
+                        <div class="mt-4">
+                            <a href="/paraphrases" class="btn btn-info me-2">Browse Paraphrases</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phrases -->
+            <div class="col-lg-6 mb-4">
+                <div class="language-card phrases">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px;">
+                                <i class="fas fa-quote-left fs-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="mb-0">Phrases</h3>
+                                <p class="text-muted mb-0">Full expressions</p>
+                            </div>
+                        </div>
+                        <p class="card-text">Learn complete phrases with alternative wording to improve fluency and clarity in writing and speaking.</p>
+                        <div class="mt-4">
+                            <a href="/phrases" class="btn btn-secondary me-2">Browse Phrases</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phrase MNG -->
+            <div class="col-lg-6 mb-4">
+                <div class="language-card phrase-mng">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px;">
+                                <i class="fas fa-pencil-alt fs-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="mb-0">Phrase MNG</h3>
+                                <p class="text-muted mb-0">Fill-in-the-blank exercises</p>
+                            </div>
+                        </div>
+                        <p class="card-text">Practice phrases with missing words to improve vocabulary and context understanding. Example: “... more than the other categories” → “considerably more than the other categories.”</p>
+                        <div class="mt-4">
+                            <a href="/phrase_mng" class="btn btn-warning me-2">Browse Phrase MNG</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sentences -->
+            <div class="col-lg-6 mb-4">
+                <div class="language-card sentences">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px;">
+                                <i class="fas fa-align-left fs-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="mb-0">Sentences</h3>
+                                <p class="text-muted mb-0">Example sentences</p>
+                            </div>
+                        </div>
+                        <p class="card-text">Read nice example sentences that demonstrate grammar, vocabulary, and context. Perfect for learning through examples: “They will outlive us” or “Invisible to the naked eye, they are ubiquitous.”</p>
+                        <div class="mt-4">
+                            <a href="/sentences" class="btn btn-primary me-2">Browse Sentences</a>
                         </div>
                     </div>
                 </div>
@@ -410,7 +569,7 @@
         </div>
 
         <div class="text-center mt-4">
-            <a href="#" class="btn btn-primary btn-lg"><i class="fas fa-list me-2"></i> Browse All Words</a>
+            <a href="/words" class="btn btn-primary btn-lg"><i class="fas fa-list me-2"></i> Browse All Words</a>
         </div>
     </div>
 </section>
@@ -418,57 +577,14 @@
 <!-- Footer -->
 <footer class="footer">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-4 mb-4">
-                <h3 class="mb-3">LexiBridge</h3>
-                <p>A comprehensive German-English dictionary designed to help language learners, translators, and enthusiasts bridge the gap between two rich languages.</p>
-                <div class="mt-4">
-                    <a href="#" class="me-3 text-white fs-5"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="me-3 text-white fs-5"><i class="fab fa-facebook"></i></a>
-                    <a href="#" class="me-3 text-white fs-5"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="text-white fs-5"><i class="fab fa-github"></i></a>
-                </div>
-            </div>
-
-            <div class="col-lg-2 col-md-6 mb-4">
-                <h5 class="mb-3">Quick Links</h5>
-                <ul class="list-unstyled">
-                    <li class="mb-2"><a href="#">Home</a></li>
-                    <li class="mb-2"><a href="#">Game</a></li>
-                    <li class="mb-2"><a href="#">Search Word</a></li>
-                    <li class="mb-2"><a href="#">All Words</a></li>
-                </ul>
-            </div>
-
-            <div class="col-lg-3 col-md-6 mb-4">
-                <h5 class="mb-3">Language Sections</h5>
-                <ul class="list-unstyled">
-                    <li class="mb-2"><a href="#">German Words</a></li>
-                    <li class="mb-2"><a href="#">English Words</a></li>
-                    <li class="mb-2"><a href="#">Popular Words</a></li>
-                    <li class="mb-2"><a href="#">Newly Added Words</a></li>
-                </ul>
-            </div>
-
-            <div class="col-lg-3 col-md-6 mb-4">
-                <h5 class="mb-3">Contribute</h5>
-                <ul class="list-unstyled">
-                    <li class="mb-2"><a href="#">Add New Word</a></li>
-                    <li class="mb-2"><a href="#">Report Error</a></li>
-                    <li class="mb-2"><a href="#">Suggest Feature</a></li>
-                    <li class="mb-2"><a href="#">Become Editor</a></li>
-                </ul>
-            </div>
-        </div>
-
         <hr class="mt-0 mb-4" style="border-color: #555;">
 
         <div class="row">
             <div class="col-md-6">
-                <p>&copy; 2023 LexiBridge Dictionary. All rights reserved.</p>
+                <p>&copy; 2026 Dict.PouyaIT.Com. All rights reserved.</p>
             </div>
             <div class="col-md-6 text-md-end">
-                <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a> | <a href="#">Cookie Policy</a></p>
+                <p><a href="#">Report a bug</a></p>
             </div>
         </div>
     </div>
@@ -478,35 +594,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    // Simple search functionality
-    document.querySelector('.search-box').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            const searchTerm = this.value.trim();
-            if (searchTerm) {
-                alert(`Searching for: "${searchTerm}"\nThis would redirect to search results in a real implementation.`);
-                // In a real implementation, you would redirect to search results page
-                // window.location.href = `/search?q=${encodeURIComponent(searchTerm)}`;
-            }
-        }
-    });
-
-    // Navbar scroll effect
-    window.addEventListener('scroll', function() {
-        const navbar = document.querySelector('.navbar');
-        if (window.scrollY > 50) {
-            navbar.classList.add('shadow');
-        } else {
-            navbar.classList.remove('shadow');
-        }
-    });
-
-    // Simple counter animation for stats
     const counters = document.querySelectorAll('.stat-number');
     const speed = 200;
 
     const animateCounters = () => {
         counters.forEach(counter => {
-            const target = +counter.getAttribute('data-target') || +counter.innerText.replace('+', '').replace(',', '');
+            const target = +counter.getAttribute('data-target');
             const count = +counter.innerText.replace('+', '').replace(',', '') || 0;
 
             if (count < target) {
@@ -518,16 +611,7 @@
         });
     };
 
-    // Initialize counters when page loads
-    window.addEventListener('load', function() {
-        // Set data-target attributes for animation
-        document.querySelectorAll('.stat-number').forEach((el, index) => {
-            const values = [12500, 15200, 27700, 8900];
-            el.setAttribute('data-target', values[index]);
-            el.innerText = '0+';
-        });
-
-        // Start animation after a delay
+    window.addEventListener('load', () => {
         setTimeout(animateCounters, 500);
     });
 </script>
