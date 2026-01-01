@@ -15,10 +15,9 @@ class WordController extends Controller
     }
     public function thoseWords($lang)
     {
-        $language = Language::whereName($lang)->orWhere('code', $lang)->firstOrFail();
-        $languageId = $language->id;
+        $language = Language::where('id',$lang)->firstOrFail();
         $languageName = $language->name;
-        $words = Word::where('language_id',$languageId)->get();
+        $words = Word::where('language_id',$lang)->get();
 
         return view('words.synonyms', compact('words','languageName'));
     }
@@ -39,5 +38,20 @@ class WordController extends Controller
         }
 
         return redirect()->route('words.index')->with('success', 'Synonym added!');
+    }
+
+    public function create()
+    {
+        dd(1);
+    }
+
+    public function store(Request $request)
+    {
+        dd(3);
+    }
+
+    public function search()
+    {
+        dd(3);
     }
 }

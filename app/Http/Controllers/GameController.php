@@ -32,32 +32,58 @@ class GameController extends Controller
 
                 case 'sentence':
                     $item = Sentence::inRandomOrder()->first();
-                    if ($item) return view('game', ['type' => $type, 'question' => $item->sentences]);
+                    if ($item) return view('game', [
+                        'type' => $type,
+                        'question' => $item->sentences,
+                        'answer' => null
+                    ]);
                     break;
 
                 case 'turnover':
                     $item = Turnover::inRandomOrder()->first();
-                    if ($item) return view('game', ['type' => $type, 'question' => $item->sentences]);
+                    if ($item) return view('game', [
+                        'type' => $type,
+                        'question' => $item->sentences,
+                        'answer' => null
+                    ]);
                     break;
 
                 case 'phrase':
                     $item = Phrase::inRandomOrder()->first();
-                    if ($item) return view('game', ['type' => $type, 'question' => $item->original, 'answer' => $item->replacement]);
+                    if ($item) return view('game', [
+                        'type' => $type,
+                        'question' => $item->original,
+                        'answer' => $item->replacement
+                    ]);
                     break;
 
                 case 'loanword':
                     $item = LoanWord::inRandomOrder()->first();
-                    if ($item) return view('game', ['type' => $type, 'question' => $item->word, 'answer' => $item->meaning]);
+                    if ($item) return view('game', [
+                        'type' => $type,
+                        'question' => $item->word,
+                        'answer' => $item->meaning
+                    ]);
                     break;
 
                 case 'abbreviation':
                     $item = Abbreviation::inRandomOrder()->first();
-                    if ($item) return view('game', ['type' => $type, 'question' => $item->original, 'answer' => $item->replacement]);
+                    if ($item) return view('game', [
+                        'type' => $type,
+                        'question' => $item->original,
+                        'answer' => $item->replacement
+                    ]);
                     break;
             }
         }
 
-        return view('game')->with('message', 'No data available to play the game.');
+        // fallback if no item found
+        return view('game', [
+            'type' => null,
+            'question' => null,
+            'answer' => null,
+            'message' => 'No data available to play the game.'
+        ]);
     }
 
     public function checkGuess(Request $request)
