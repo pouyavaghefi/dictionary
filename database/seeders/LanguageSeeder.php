@@ -16,6 +16,7 @@ class LanguageSeeder extends Seeder
             ['name' => 'English', 'code' => 'en'],
             ['name' => 'German', 'code' => 'de'],
             ['name' => 'Farsi', 'code' => 'fa'],
+            ['name' => 'Dutch', 'code' => 'nl'],
         ]);
     }
 }

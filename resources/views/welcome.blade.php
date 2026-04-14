@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>German & English Dictionary</title>
+    <title>German, English & Dutch Dictionary</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for icons -->
@@ -229,7 +229,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <i class="fas fa-book me-2"></i>Lexi<span>Bridge</span>
+            <i class="fas fa-book me-2"></i>PouyaIT<span>Dictionary</span>
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -307,6 +307,10 @@
             <div class="container">
                 <div class="row justify-content-center text-center">
                     <div class="col-md-3 col-sm-6 mb-4">
+                        <span class="stat-number" data-target="{{ $dutchCount }}">0+</span>
+                        <span class="stat-label d-block">Dutch Words</span>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-4">
                         <span class="stat-number" data-target="{{ $germanCount }}">0+</span>
                         <span class="stat-label d-block">German Words</span>
                     </div>
@@ -378,6 +382,29 @@
         <h2 class="section-title">Browse By Language</h2>
 
         <div class="row">
+            <!-- Dutch Words -->
+            <div class="col-lg-6 mb-4">
+                <div class="language-card dutch">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-info text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px;">
+                                <i class="fas fa-flag fs-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="mb-0">Dutch Words</h3>
+                                <p class="text-muted mb-0">Nederlandse Woorden</p>
+                            </div>
+                        </div>
+                        <p class="card-text">
+                            Explore Dutch words with English translations, pronunciation guides, and usage examples. Perfect for Dutch learners.
+                        </p>
+                        <div class="mt-4">
+                            <a href="/words/4" class="btn btn-info me-2">Browse Dutch Words</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- German Words -->
             <div class="col-lg-6 mb-4">
                 <div class="language-card german">

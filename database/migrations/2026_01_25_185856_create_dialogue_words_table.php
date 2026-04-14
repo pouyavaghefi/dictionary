@@ -11,22 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('terms', function (Blueprint $table) {
+        Schema::create('words_dialogues', function (Blueprint $table) {
             $table->id();
-            $table->string('term_name');
-            $table->text('term_explanation'); // better for long text
-            $table->string('term_meaning_fa')->nullable();
-            $table->json('related_terms')->nullable(); // new column
+            $table->foreignId('word_id')->constrained('words')->onDelete('cascade');
+            $table->foreignId('dialogue_id')->constrained('dialogues')->onDelete('cascade');
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('terms');
+        Schema::dropIfExists('words_dialogues');
     }
 };

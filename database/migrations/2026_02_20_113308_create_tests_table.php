@@ -11,22 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('terms', function (Blueprint $table) {
+        Schema::create('tests', function (Blueprint $table) {
             $table->id();
-            $table->string('term_name');
-            $table->text('term_explanation'); // better for long text
-            $table->string('term_meaning_fa')->nullable();
-            $table->json('related_terms')->nullable(); // new column
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('language_id')->constrained()->cascadeOnDelete();
+            $table->integer('total_words');
+            $table->integer('correct_answers')->default(0);
+            $table->boolean('is_completed')->default(false);
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('terms');
+        Schema::dropIfExists('tests');
     }
 };

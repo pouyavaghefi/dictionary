@@ -9,60 +9,85 @@ use App\Models\Sentence;
 use App\Models\Turnover;
 use App\Models\Phrase;
 use App\Models\LoanWord;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class GameController extends Controller
 {
     public function index()
     {
-        $types = ['word'];
-        shuffle($types);
+        $item = Word::where('language_id', 4)->inRandomOrder()->first();
 
-        foreach ($types as $type) {
-            if ($type === 'word') {
-                $item = Word::where('language_id', 1)->inRandomOrder()->first();
-                if ($item) {
-                    return view('game', [
-                        'type' => 'word',
-                        'question' => $item->word,
-                        'answer' => $item->meaning,
-                    ]);
-                }
-            }
+        if (!$item) {
+            abort(404);
         }
 
-        abort(404);
+        // Store word in session (NOT flash)
+        Session::put('word', $item);
+
+        $faExists = !empty($item->meaning);
+        $enExists = !empty($item->meaning_en);
+
+        // Decide what user must answer
+        if ($enExists) {
+            $sentence = 'en';
+        } elseif ($faExists) {
+            $sentence = 'fa';
+        } else {
+            $sentence = 'none';
+        }
+
+        return view('game', [
+            'type' => 'word',
+            'question' => $item->word,
+            'sentence' => $sentence,
+        ]);
     }
 
     public function checkGuess(Request $request)
     {
-        $correct = trim(strtolower($request->input('correct_answer')));
-        $userGuess = trim(strtolower($request->input('user_guess')));
+        $word = Session::get('word');
 
-        // init stats if not exists
-        $stats = session()->get('stats', [
-            'correct' => 0,
-            'wrong' => 0,
-            'total' => 0,
-        ]);
-
-        $stats['total']++;
-
-        if ($userGuess === $correct) {
-            $stats['correct']++;
-
-            session()->put('stats', $stats);
-
-            return back()->with('success', 'Correct!');
+        if (!$word) {
+            return redirect()->route('game.index');
         }
 
-        // wrong answer
-        $stats['wrong']++;
+        $userGuess = strtolower(trim($request->input('user_guess', '')));
 
-        session()->put('stats', $stats);
+        $correctCount = Session::get('correct_count', 0);
+        $wrongCount   = Session::get('wrong_count', 0);
 
-        return back()->with([
-            'error' => 'Incorrect! The correct answer was: ' . $request->input('correct_answer'),
+        $correctAnswers = [];
 
+        if (!empty($word->meaning)) {
+            $correctAnswers[] = strtolower(trim($word->meaning));
+        }
+
+        if (!empty($word->meaning_en)) {
+            $correctAnswers[] = strtolower(trim($word->meaning_en));
+        }
+
+        if ($userGuess === '' || !in_array($userGuess, $correctAnswers)) {
+
+            $wrongCount++;
+            Session::put('wrong_count', $wrongCount);
+
+            return redirect()->route('game.index')->with([
+                'error' => "❌ Wrong! Word: {$word->word} | FA: " .
+                    ($word->meaning ?? '-') .
+                    " | EN: " . ($word->meaning_en ?? '-'),
+            ]);
+        }
+
+        $correctCount++;
+        Session::put('correct_count', $correctCount);
+
+        return redirect()->route('game.index')->with([
+            'success' => "✅ Correct! Word: {$word->word} | FA: " .
+                ($word->meaning ?? '-') .
+                " | EN: " . ($word->meaning_en ?? '-'),
         ]);
     }
+
+
 }

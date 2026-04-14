@@ -104,13 +104,13 @@
 
     <div class="card">
         <div class="question">
-            Guess the {{ ucfirst($type) }}<br>
+            Guess the {{ ucfirst($type) }}
+            ({{ $sentence === 'en' ? 'EN' : ($sentence === 'fa' ? 'FA' : '-') }})<br>
             <strong>{{ $question }}</strong>
         </div>
 
         <form method="POST" action="{{ route('game.check') }}">
             @csrf
-            <input type="hidden" name="correct_answer" value="{{ $answer }}">
             <input type="text" name="user_guess" autocomplete="off" required>
             <button type="submit">Check</button>
         </form>

@@ -8,4 +8,9 @@ class Abbreviation extends Model
 {
     protected $table = 'abbreviations';
     protected $guarded = [];
+
+    public function language()
+    {
+        return $this->belongsTo(Language::class);
+    }
 }

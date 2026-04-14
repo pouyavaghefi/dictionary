@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+          $this->call(UserSeeder::class);
           $this->call(LanguageSeeder::class);
           $this->call(WordSeeder::class);
           $this->call(SentenceSeeder::class);
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
           $this->call(FamousSeeder::class);
           $this->call(IdiomSeeder::class);
           $this->call(LanguagePracticeSeeder::class);
-//          $this->call(TermSeeder::class);
+          $this->call(ConversationSeeder::class);
+          $this->call(TermSeeder::class);
     }
 }

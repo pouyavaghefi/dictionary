@@ -12,8 +12,9 @@ class DashboardController extends Controller
         $wordOfTheDay = Word::inRandomOrder()->first();
         $englishCount = Word::where('language_id', 1)->count();
         $germanCount  = Word::where('language_id', 2)->count();
+        $dutchCount  = Word::where('language_id', 4)->count();
         $totalCount   = Word::count();
 
-        return view('welcome', compact('wordOfTheDay','englishCount','germanCount','totalCount'));
+        return view('welcome', compact('wordOfTheDay','englishCount','germanCount','totalCount','dutchCount'));
     }
 }

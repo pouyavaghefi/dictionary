@@ -5,23 +5,65 @@ namespace App\Http\Controllers;
 use App\Models\Language;
 use Illuminate\Http\Request;
 use App\Models\Word;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 class WordController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $words = Word::all();
+        $search = $request->input('search');
 
-        return view('words.index', compact('words'));
+        $words = Word::query()
+            ->when($search, function ($query, $search) {
+                $query->where('word', 'like', "%{$search}%")
+                    ->orWhere('meaning', 'like', "%{$search}%")
+                    ->orWhere('meaning_en', 'like', "%{$search}%");
+            })
+            ->orderBy('word')
+            ->paginate(20)
+            ->withQueryString();
+
+        return view('words.index', compact('words', 'search'));
     }
+
+    public function langWords($id)
+    {
+        $words = Word::where('language_id', $id)
+            ->orderBy('word')
+            ->paginate(20);
+
+        return view('words.index', [
+            'words' => $words,
+            'search' => null,
+        ]);
+    }
+
+
+    public function browse($lang)
+    {
+        $language = Language::findOrFail($lang);
+        $languageName = $language->name;
+
+        $words = Word::where('language_id', $language->id)
+            ->orderBy('word')
+            ->paginate(20); // <-- use paginate
+        // ->withQueryString(); // optional if you have filters
+
+        return view('words.index', compact('words','languageName'));
+    }
+
     public function thoseWords($lang)
     {
-        $language = Language::where('id',$lang)->firstOrFail();
+        $language = Language::findOrFail($lang);
         $languageName = $language->name;
-        $words = Word::where('language_id',$lang)->get();
+
+        $words = Word::where('language_id', $lang)
+            ->orderBy('word')
+            ->paginate(20); // <-- use paginate
 
         return view('words.synonyms', compact('words','languageName'));
     }
+
 
     public function addSynonym(Request $request, Word $word)
     {
