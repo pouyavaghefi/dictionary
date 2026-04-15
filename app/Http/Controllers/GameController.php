@@ -2,48 +2,67 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Abbreviation;
+use App\Models\Language;
 use Illuminate\Http\Request;
 use App\Models\Word;
-use App\Models\Sentence;
-use App\Models\Turnover;
-use App\Models\Phrase;
-use App\Models\LoanWord;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class GameController extends Controller
 {
-    public function index()
+    /**
+     * Show a random word from the selected language (defaults to Dutch).
+     *
+     * @param  Language|null  $language  — resolved via route model binding on {language:code}
+     */
+    public function index(?Language $language = null)
     {
-        $item = Word::where('language_id', 4)->inRandomOrder()->first();
+        // Load all languages that actually have at least one word
+        $languages = Language::whereHas('words')->get();
 
-        if (!$item) {
-            abort(404);
+        // Default to Dutch (language_id = 4) when no language segment in URL
+        if (!$language || !$language->exists) {
+            $language = Language::find(4);
         }
 
-        // Store word in session (NOT flash)
+        if (!$language) {
+            abort(404, 'Default language not found in database.');
+        }
+
+        $item = Word::where('language_id', $language->id)
+                    ->inRandomOrder()
+                    ->first();
+
+        if (!$item) {
+            return redirect()
+                ->route('game.index')
+                ->with('error', " No words found for language: {$language->name}");
+        }
+
+        // Persist current word and language in session
         Session::put('word', $item);
+        Session::put('game_language_id', $language->id);
 
-        $faExists = !empty($item->meaning);
-        $enExists = !empty($item->meaning_en);
-
-        // Decide what user must answer
-        if ($enExists) {
-            $sentence = 'en';
-        } elseif ($faExists) {
-            $sentence = 'fa';
+        // Decide what the user must answer: prefer English, fall back to Persian
+        if (!empty($item->meaning_en)) {
+            $answerLang = 'en';
+        } elseif (!empty($item->meaning)) {
+            $answerLang = 'fa';
         } else {
-            $sentence = 'none';
+            $answerLang = 'none';
         }
 
         return view('game', [
-            'type' => 'word',
-            'question' => $item->word,
-            'sentence' => $sentence,
+            'type'      => 'word',
+            'question'  => $item->word,
+            'sentence'  => $answerLang,
+            'language'  => $language,
+            'languages' => $languages,
         ]);
     }
 
+    /**
+     * Check the user's guess against the stored word.
+     */
     public function checkGuess(Request $request)
     {
         $word = Session::get('word');
@@ -52,42 +71,46 @@ class GameController extends Controller
             return redirect()->route('game.index');
         }
 
-        $userGuess = strtolower(trim($request->input('user_guess', '')));
+        $userGuess = mb_strtolower(trim($request->input('user_guess', '')));
 
-        $correctCount = Session::get('correct_count', 0);
-        $wrongCount   = Session::get('wrong_count', 0);
+        // Retrieve current stats (consistent nested key: stats.*)
+        $correct = Session::get('stats.correct', 0);
+        $wrong   = Session::get('stats.wrong', 0);
 
+        // Build list of acceptable correct answers
         $correctAnswers = [];
-
         if (!empty($word->meaning)) {
-            $correctAnswers[] = strtolower(trim($word->meaning));
+            $correctAnswers[] = mb_strtolower(trim($word->meaning));
+        }
+        if (!empty($word->meaning_en)) {
+            $correctAnswers[] = mb_strtolower(trim($word->meaning_en));
         }
 
-        if (!empty($word->meaning_en)) {
-            $correctAnswers[] = strtolower(trim($word->meaning_en));
-        }
+        // Determine the route to redirect back to (language-specific or default)
+        $languageId  = Session::get('game_language_id', 4);
+        $language    = Language::find($languageId);
+        $redirectRoute = ($language && $language->code !== null)
+            ? route('game.language', ['language' => $language->code])
+            : route('game.index');
 
         if ($userGuess === '' || !in_array($userGuess, $correctAnswers)) {
+            Session::put('stats.wrong', $wrong + 1);
+            Session::put('stats.total', $correct + $wrong + 1);
 
-            $wrongCount++;
-            Session::put('wrong_count', $wrongCount);
+            $message = "❌ Wrong!  {$word->word}"
+                . " | FA: " . ($word->meaning    ?? '—')
+                . " | EN: " . ($word->meaning_en ?? '—');
 
-            return redirect()->route('game.index')->with([
-                'error' => "❌ Wrong! Word: {$word->word} | FA: " .
-                    ($word->meaning ?? '-') .
-                    " | EN: " . ($word->meaning_en ?? '-'),
-            ]);
+            return redirect($redirectRoute)->with('error', $message);
         }
 
-        $correctCount++;
-        Session::put('correct_count', $correctCount);
+        Session::put('stats.correct', $correct + 1);
+        Session::put('stats.total', $correct + 1 + $wrong);
 
-        return redirect()->route('game.index')->with([
-            'success' => "✅ Correct! Word: {$word->word} | FA: " .
-                ($word->meaning ?? '-') .
-                " | EN: " . ($word->meaning_en ?? '-'),
-        ]);
+        $message = "✅ Correct!  {$word->word}"
+            . " | FA: " . ($word->meaning    ?? '—')
+            . " | EN: " . ($word->meaning_en ?? '—');
+
+        return redirect($redirectRoute)->with('success', $message);
     }
-
-
 }

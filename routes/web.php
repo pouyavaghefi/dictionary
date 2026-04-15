@@ -19,6 +19,7 @@ Route::get('/catch_phrases', [CatchPhraseController::class, 'index'])->name('cat
 Route::get('/phrases', [PhraseController::class, 'index'])->name('phrases.index');
 
 Route::get('/game', [GameController::class, 'index'])->name('game.index');
+Route::get('/game/{language:code}', [GameController::class, 'index'])->name('game.language');
 Route::post('/game/guess', [GameController::class, 'checkGuess'])->name('game.check');
 
 Route::get('/words', [WordController::class, 'index'])->name('words.index');

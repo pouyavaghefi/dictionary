@@ -13,13 +13,15 @@ class TestController extends Controller
         return view('tests.confirm');
     }
 
-    public function startTest()
+    public function startTest(Request $request)
     {
-        $words = Word::where('language_id', 4)->pluck('id');
+        $languageId = (int) $request->input('language_id', 4);
+
+        $words = Word::where('language_id', $languageId)->pluck('id');
 
         $test = Test::create([
-            'user_id' => 1,
-            'language_id' => 4,
+            'user_id'     => 1,
+            'language_id' => $languageId,
             'total_words' => $words->count(),
         ]);
 
