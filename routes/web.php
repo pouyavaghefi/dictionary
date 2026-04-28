@@ -23,7 +23,8 @@ Route::get('/game/{language:code}', [GameController::class, 'index'])->name('gam
 Route::post('/game/guess', [GameController::class, 'checkGuess'])->name('game.check');
 
 Route::get('/words', [WordController::class, 'index'])->name('words.index');
-Route::get('/words/{lang}', [WordController::class, 'langWords'])->name('words.custom.lang');
+Route::get('/words/create', [WordController::class, 'create'])->name('words.create');
+Route::post('/words/store', [WordController::class, 'store'])->name('words.store');
 
 Route::get('/synonyms/words/{lang}', [WordController::class, 'thoseWords'])->name('words.specific.lang');
 Route::post('/synonyms/words/{word}/synonym', [WordController::class, 'addSynonym'])->name('words.addSynonym');
@@ -38,8 +39,7 @@ Route::post('/words/vote/{word}/upvote', [WordController::class, 'upvote'])->nam
 Route::post('/words/vote/{word}/downvote', [WordController::class, 'downvote'])->name('words.downvote');
 Route::get('/words/{word}/related/show', [WordController::class, 'relatedWords'])->name('words.related');
 
-Route::get('/words/create', [WordController::class, 'create'])->name('words.create');
-Route::post('/words/store', [WordController::class, 'store'])->name('words.store');
+Route::get('/words/{lang}', [WordController::class, 'langWords'])->name('words.custom.lang');
 
 Route::get('/tests/start', [TestController::class, 'confirm'])->name('tests.confirm');
 Route::post('/tests/start', [TestController::class, 'startTest'])->name('tests.start');

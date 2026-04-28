@@ -85,12 +85,28 @@ class WordController extends Controller
 
     public function create()
     {
-        dd(1);
+        $languages = Language::all();
+        return view('words.create', compact('languages'));
     }
 
     public function store(Request $request)
     {
-        dd(3);
+        $validated = $request->validate([
+            'word' => 'required|string|max:255',
+            'language_id' => 'required|exists:languages,id',
+            'meaning' => 'nullable|string|max:255',
+            'meaning_en' => 'nullable|string|max:255',
+        ]);
+
+        Word::create([
+            'word' => $validated['word'],
+            'language_id' => $validated['language_id'],
+            'meaning' => $validated['meaning'],
+            'meaning_en' => $validated['meaning_en'],
+            'creator_type' => Word::CREATOR_USER, // এখানে অটো ১ (User) হিসেবে সেভ হবে।
+        ]);
+
+        return redirect()->route('words.index')->with('success', 'নতুন শব্দ সফলভাবে যোগ করা হয়েছে!');
     }
 
     public function search(Request $request)
